@@ -3,6 +3,7 @@
 import { motion, useReducedMotion } from 'motion/react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { profile } from '@/lib/content';
+import { toggleTheme } from './ui-mode';
 
 type Line = { html: string };
 
@@ -110,15 +111,9 @@ export function Terminal() {
       return;
     }
     if (c === 'theme') {
-      const d = document.documentElement;
-      const next = !d.classList.contains('light');
-      d.classList.toggle('light', next);
-      d.classList.toggle('dark', !next);
-      try {
-        localStorage.setItem('theme', next ? 'light' : 'dark');
-      } catch {
-        /* ignore */
-      }
+      // Through the shared store, not the DOM directly — otherwise the
+      // sidebar toggle's icon and aria-pressed go stale.
+      toggleTheme();
       print('<i>Theme toggled.</i>');
       return;
     }

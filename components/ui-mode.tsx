@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useSyncExternalStore } from 'react';
+import { useSyncExternalStore } from 'react';
 
 /**
  * Theme and recruiter mode live as classes on <html>, set pre-paint by the
@@ -40,33 +40,38 @@ function getSnapshot() {
   return snapshot;
 }
 
+/**
+ * Module-level, not hook-only: anything that flips the theme (the sidebar
+ * control, the terminal's `theme` command) must go through here so the store
+ * syncs and every subscriber re-renders. Toggling the <html> classes directly
+ * leaves the controls showing the previous state.
+ */
+export function toggleTheme() {
+  const d = document.documentElement;
+  const next = !d.classList.contains('light');
+  d.classList.toggle('light', next);
+  d.classList.toggle('dark', !next);
+  try {
+    localStorage.setItem('theme', next ? 'light' : 'dark');
+  } catch {
+    /* private browsing — the choice just won't persist */
+  }
+  sync();
+}
+
+export function toggleRecruiter() {
+  const d = document.documentElement;
+  const next = !d.classList.contains('recruiter');
+  d.classList.toggle('recruiter', next);
+  try {
+    localStorage.setItem('recruiter', next ? '1' : '0');
+  } catch {
+    /* ignore */
+  }
+  sync();
+}
+
 export function useUiMode() {
   const state = useSyncExternalStore(subscribe, getSnapshot, () => SERVER_SNAPSHOT);
-
-  const toggleTheme = useCallback(() => {
-    const d = document.documentElement;
-    const next = !d.classList.contains('light');
-    d.classList.toggle('light', next);
-    d.classList.toggle('dark', !next);
-    try {
-      localStorage.setItem('theme', next ? 'light' : 'dark');
-    } catch {
-      /* private browsing — the choice just won't persist */
-    }
-    sync();
-  }, []);
-
-  const toggleRecruiter = useCallback(() => {
-    const d = document.documentElement;
-    const next = !d.classList.contains('recruiter');
-    d.classList.toggle('recruiter', next);
-    try {
-      localStorage.setItem('recruiter', next ? '1' : '0');
-    } catch {
-      /* ignore */
-    }
-    sync();
-  }, []);
-
   return { ...state, toggleTheme, toggleRecruiter };
 }

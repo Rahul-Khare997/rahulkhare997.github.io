@@ -17,8 +17,14 @@ const TITLE = `${profile.name} — Program Management | Business & Finance Opera
 const DESCRIPTION =
   'Program Manager at Zenquip Healthcare and ex-TD Bank Canada. Program delivery, business and finance operations, KPI reporting and dashboards, process improvement. Notice period: 2 weeks.';
 
-const FAVICON =
-  "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='13' fill='%23050d1a'/%3E%3Crect x='2.5' y='2.5' width='59' height='59' rx='11' fill='none' stroke='%23c9a84c' stroke-width='2'/%3E%3Ctext x='32' y='44' font-family='Georgia,Times,serif' font-size='32' font-weight='700' fill='%23c9a84c' text-anchor='middle'%3ERK%3C/text%3E%3C/svg%3E";
+/** OG/Twitter card, favicons and the mark itself all derive from the RK
+ *  logo — sources in .logo-sources/, derived files in public/assets/brand/. */
+const OG_IMAGE = {
+  url: '/assets/brand/og.png',
+  width: 1200,
+  height: 630,
+  alt: `${profile.name} — Program Manager, Business & Finance Operations`,
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE),
@@ -26,7 +32,14 @@ export const metadata: Metadata = {
   description: DESCRIPTION,
   authors: [{ name: profile.name }],
   alternates: { canonical: '/' },
-  icons: { icon: FAVICON },
+  icons: {
+    icon: [
+      { url: '/assets/brand/favicon-32.png', sizes: '32x32', type: 'image/png' },
+      { url: '/assets/brand/icon-192.png', sizes: '192x192', type: 'image/png' },
+      { url: '/assets/brand/icon-512.png', sizes: '512x512', type: 'image/png' },
+    ],
+    apple: '/assets/brand/apple-touch-icon.png',
+  },
   openGraph: {
     type: 'website',
     title: TITLE,
@@ -34,8 +47,14 @@ export const metadata: Metadata = {
     url: SITE,
     siteName: `${profile.name} — Portfolio`,
     locale: 'en_IN',
+    images: [OG_IMAGE],
   },
-  twitter: { card: 'summary_large_image', title: TITLE, description: DESCRIPTION },
+  twitter: {
+    card: 'summary_large_image',
+    title: TITLE,
+    description: DESCRIPTION,
+    images: [OG_IMAGE],
+  },
   robots: { index: true, follow: true },
 };
 

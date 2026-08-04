@@ -1,21 +1,44 @@
 'use client';
 
 import { motion, useReducedMotion } from 'motion/react';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { skillPanels } from '@/lib/content';
 import { Rich } from './rich';
 
-/** Competency areas as a vertical rail on desktop, scrolling chips on mobile. */
+/**
+ * Competency areas as a vertical rail on desktop, scrolling chips on mobile.
+ * Same ARIA tablist keyboard contract as experience-tabs: with roving
+ * tabindex, arrow keys are the only way a keyboard user can reach the
+ * inactive tabs at all.
+ */
 export function SkillsTabs() {
   const [active, setActive] = useState(skillPanels[0].id);
   const reduced = useReducedMotion();
+  const tabRefs = useRef<Record<string, HTMLButtonElement | null>>({});
   const panel = skillPanels.find((p) => p.id === active) ?? skillPanels[0];
+
+  function onKeyDown(e: React.KeyboardEvent) {
+    const ids = skillPanels.map((p) => p.id);
+    const i = ids.indexOf(active);
+    let next: string | null = null;
+
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') next = ids[(i + 1) % ids.length];
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') next = ids[(i - 1 + ids.length) % ids.length];
+    if (e.key === 'Home') next = ids[0];
+    if (e.key === 'End') next = ids[ids.length - 1];
+    if (!next) return;
+
+    e.preventDefault();
+    setActive(next);
+    tabRefs.current[next]?.focus();
+  }
 
   return (
     <div className="grid gap-6 lg:grid-cols-[minmax(0,15rem)_1fr] lg:gap-8">
       <div
         role="tablist"
         aria-label="Competency areas"
+        onKeyDown={onKeyDown}
         className="scroll-fade-x no-scrollbar -mx-1 flex gap-2 overflow-x-auto px-1 lg:mx-0 lg:flex-col lg:gap-1 lg:overflow-visible lg:px-0"
       >
         {skillPanels.map((p) => {
@@ -23,8 +46,13 @@ export function SkillsTabs() {
           return (
             <button
               key={p.id}
+              ref={(el) => {
+                tabRefs.current[p.id] = el;
+              }}
+              id={`tab-skills-${p.id}`}
               role="tab"
               aria-selected={on}
+              aria-controls={`panel-skills-${p.id}`}
               tabIndex={on ? 0 : -1}
               onClick={() => setActive(p.id)}
               className={[
@@ -56,7 +84,9 @@ export function SkillsTabs() {
       <motion.div
         key={panel.id}
         data-motion
+        id={`panel-skills-${panel.id}`}
         role="tabpanel"
+        aria-labelledby={`tab-skills-${panel.id}`}
         initial={reduced ? false : { opacity: 0, y: 6 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: reduced ? 0 : 0.24, ease: [0.4, 0, 0.2, 1] }}

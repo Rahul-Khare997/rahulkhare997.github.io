@@ -27,7 +27,14 @@ export function Preloader() {
     } catch {
       seen = false;
     }
-    if (seen || document.documentElement.classList.contains('recruiter')) return;
+    if (seen || document.documentElement.classList.contains('recruiter')) {
+      // Reset explicitly: under React Strict Mode the effect runs twice, and
+      // the first run has already set the session flag and phase 'show' before
+      // its cleanup cancelled the dismiss timers. Without this reset the
+      // second run bails out here and the overlay is stuck on screen forever.
+      setPhase('hidden');
+      return;
+    }
 
     try {
       sessionStorage.setItem('rk_launched', '1');
@@ -68,12 +75,19 @@ export function Preloader() {
     >
       <div className="w-full max-w-sm px-8 text-center">
         <motion.div
-          className="font-serif text-3xl font-bold tracking-tight text-heading"
+          className="flex justify-center"
           initial={reduced ? false : { opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
         >
-          RK
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="assets/brand/rk-mark.png"
+            alt=""
+            width={66}
+            height={80}
+            className="h-20 w-auto"
+          />
         </motion.div>
 
         <div className="mt-3 font-mono text-[10px] uppercase tracking-[0.28em] text-muted-foreground">

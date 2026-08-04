@@ -299,8 +299,46 @@
   .no-print {
     display: none !important;
   }
+
+  /* Force print-safe tokens regardless of theme: the dark palette's
+     near-white headings and pale body text vanish on white paper. */
+  :root,
+  .dark,
+  .light {
+    --background: #fff;
+    --surface: #f5f3ee;
+    --surface-2: #edeae2;
+    --foreground: #333;
+    --heading: #000;
+    --muted-foreground: #555;
+    --accent: #8a6520;
+    --accent-light: #5e4010;
+    --accent-foreground: #fff;
+    --accent-muted: transparent;
+    --border: #ccc;
+    --border-bright: #999;
+    --grid-line: transparent;
+    --spotlight: transparent;
+    --glass: #fff;
+  }
+
   body {
     background: #fff;
-    color: #000;
+    color: #333;
+  }
+
+  /* Entrance states must not hide copy on paper. */
+  .js .reveal,
+  .js .hero-reveal,
+  [data-motion] {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .grid-bg,
+  .ghost-num {
+    display: none !important;
   }
 }

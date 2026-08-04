@@ -274,9 +274,19 @@ export default function Home() {
               </div>
             </Section>
 
-            <footer className="border-t border-border pb-24 pt-6 font-mono text-[10px] text-muted-foreground lg:pb-10">
-              © {new Date().getFullYear()} {profile.name} · rahul-khare997.github.io · Built with
-              Next.js, Tailwind CSS and Framer Motion
+            <footer className="flex items-center gap-3 border-t border-border pb-24 pt-6 font-mono text-[10px] text-muted-foreground lg:pb-10">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="assets/brand/rk-mark.png"
+                alt=""
+                width={20}
+                height={24}
+                className="h-6 w-auto opacity-70"
+              />
+              <span>
+                © {new Date().getFullYear()} {profile.name} · rahul-khare997.github.io · Built with
+                Next.js, Tailwind CSS and Framer Motion
+              </span>
             </footer>
           </main>
         </div>
