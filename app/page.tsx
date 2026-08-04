@@ -11,7 +11,13 @@ import { ExperienceTabs } from '@/components/experience-tabs';
 import { Logo } from '@/components/logo';
 import { SkillsTabs } from '@/components/skills-tabs';
 import { Availability, ContactForm, CopyEmail } from '@/components/contact';
-import { BackToTop, RecruiterBar, ScrollProgress, Ticker } from '@/components/chrome';
+import {
+  BackToTop,
+  ModeControls,
+  RecruiterBar,
+  ScrollProgress,
+  Ticker,
+} from '@/components/chrome';
 import {
   about,
   awards,
@@ -47,6 +53,13 @@ export default function Home() {
       </a>
 
       <Ticker />
+
+      {/* Desktop: theme + recruiter controls pinned top-right, outside the
+          sticky sidebar — a short viewport can never hide them there. The
+          sidebar renders its own copy below lg. */}
+      <div className="fixed right-6 top-4 z-40 hidden rounded-full border border-border bg-glass p-1.5 backdrop-blur-md lg:block no-print">
+        <ModeControls />
+      </div>
 
       {/* Asymmetric gutters: the identity column sits close to the left edge so
           the reading column gets the width. */}

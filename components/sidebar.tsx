@@ -38,7 +38,11 @@ export function Sidebar() {
   });
 
   return (
-    <header className="lg:sticky lg:top-0 lg:flex lg:max-h-screen lg:w-[34%] lg:flex-col lg:justify-between lg:py-20">
+    <header className="no-scrollbar lg:sticky lg:top-0 lg:flex lg:max-h-screen lg:w-[34%] lg:flex-col lg:justify-between lg:overflow-y-auto lg:pb-8 lg:pt-16">
+      {/* max-h-screen + sticky means anything that doesn't fit the viewport
+          is unreachable — it never scrolls into view. Rhythm below is sized
+          to fit ~800px-tall laptops; overflow-y-auto is the fallback so the
+          mode controls can never be lost on shorter screens. */}
       <div>
         <div {...stagger(0)} className="hero-reveal mb-6 flex items-center gap-4">
           <div className="relative shrink-0">
@@ -51,9 +55,9 @@ export function Sidebar() {
             <img
               src={profile.photo}
               alt={`${profile.name} — Program Manager`}
-              width={108}
-              height={108}
-              className="h-[108px] w-[108px] rounded-full object-cover object-top"
+              width={96}
+              height={96}
+              className="h-24 w-24 rounded-full object-cover object-top"
               style={{ filter: 'grayscale(10%) contrast(1.04)' }}
             />
           </div>
@@ -97,13 +101,13 @@ export function Sidebar() {
           <span className="font-mono text-[11px] text-muted-foreground">{profile.location}</span>
         </div>
 
-        <nav className="hidden lg:mt-12 lg:block" aria-label="In-page">
+        <nav className="hidden lg:mt-8 lg:block" aria-label="In-page">
           <ul className="w-max">
             {nav.map((item) => {
               const on = active === item.id;
               return (
                 <li key={item.id}>
-                  <a className="group flex items-center py-2.5" href={`#${item.id}`}>
+                  <a className="group flex items-center py-2" href={`#${item.id}`}>
                     <span
                       className={[
                         'mr-4 h-px transition-all duration-200 motion-reduce:transition-none',
@@ -128,7 +132,7 @@ export function Sidebar() {
         </nav>
       </div>
 
-      <div style={stagger(6).style} className="hero-reveal mt-10 space-y-4 lg:mt-0">
+      <div style={stagger(6).style} className="hero-reveal mt-10 space-y-3 lg:mt-6">
         <div className="flex items-center gap-4">
           <a
             href={profile.resume}
@@ -148,7 +152,11 @@ export function Sidebar() {
           </Social>
         </div>
 
-        <ModeControls />
+        {/* Mobile/tablet only — on lg the controls live in the fixed
+            top-right cluster (page.tsx) so a short viewport can't hide them. */}
+        <div className="lg:hidden">
+          <ModeControls />
+        </div>
 
         <p className="font-mono text-[10px] text-muted-foreground no-print">
           Press <kbd className="rounded border border-border px-1 text-accent">`</kbd> for the
