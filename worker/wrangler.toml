@@ -1,0 +1,20 @@
+name = "gemini-proxy"
+main = "src/index.js"
+compatibility_date = "2026-01-01"
+
+# Serve on gemini-proxy.rahulkhare.workers.dev.
+workers_dev = true
+
+# Preview URLs would publish every deployed version on its own hostname.
+# The origin allow-list below still applies to them, but there is no reason
+# to expose extra endpoints for a proxy with exactly one caller.
+preview_urls = false
+
+[vars]
+# Comma-separated list of origins allowed to call this proxy. Anything not
+# listed gets a 403, so the endpoint cannot be reused as a free Gemini relay.
+# Drop the localhost entry once local testing is done.
+ALLOWED_ORIGIN = "https://rahul-khare997.github.io,http://localhost:3210"
+
+# GEMINI_API_KEY is deliberately NOT here — secrets must never be committed.
+# Set it with:  npx wrangler secret put GEMINI_API_KEY

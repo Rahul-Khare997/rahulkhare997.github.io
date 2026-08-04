@@ -1,0 +1,14 @@
+node_modules/
+.next/
+out/
+.DS_Store
+
+# Local only. Never commit real values.
+.env.local
+
+# macOS + logo source archives (kept out of public/ so they never ship)
+.DS_Store
+.logo-sources/
+
+# Wrangler build artifacts
+.wrangler/
