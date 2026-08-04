@@ -249,6 +249,49 @@
   animation: caret 1s step-end infinite;
 }
 
+/* Chat launcher: a handful of attention pulses after load, then rest —
+   an infinite ping next to reading copy is noise, not signal. */
+@keyframes chat-ping {
+  0% {
+    transform: scale(1);
+    opacity: 0.45;
+  }
+  75%,
+  100% {
+    transform: scale(1.75);
+    opacity: 0;
+  }
+}
+
+.chat-ping {
+  animation: chat-ping 2.4s cubic-bezier(0, 0, 0.2, 1) 0.8s 4;
+  opacity: 0;
+}
+
+/* Assistant typing indicator. */
+@keyframes chat-dot {
+  0%,
+  60%,
+  100% {
+    opacity: 0.25;
+    transform: translateY(0);
+  }
+  30% {
+    opacity: 1;
+    transform: translateY(-3px);
+  }
+}
+
+.chat-dot {
+  animation: chat-dot 1.2s ease-in-out infinite;
+}
+.chat-dot:nth-child(2) {
+  animation-delay: 0.15s;
+}
+.chat-dot:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
 .scroll-fade-x {
   -webkit-mask-image: linear-gradient(
     to right,
@@ -317,6 +360,13 @@
   }
   .ticker-track {
     animation: none;
+  }
+  .chat-ping {
+    animation: none;
+  }
+  .chat-dot {
+    animation: none;
+    opacity: 0.6;
   }
 }
 
