@@ -32,6 +32,12 @@ export default function Home() {
       <Spotlight />
       <Terminal />
       <div className="grid-bg" aria-hidden />
+      {/* Oversized RK mark ghosted behind the reading column, like the
+          section numerals. Hidden in recruiter mode and print. */}
+      <div className="rk-watermark no-print" aria-hidden>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="assets/brand/rk-mark.png" alt="" />
+      </div>
 
       <a
         href="#content"

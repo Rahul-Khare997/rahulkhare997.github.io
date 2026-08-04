@@ -86,7 +86,7 @@ export function AiChat() {
         type="button"
         onClick={() => setOpen((o) => !o)}
         aria-expanded={open}
-        className="fixed bottom-6 left-6 z-40 inline-flex items-center gap-2 rounded-full bg-accent px-4 py-2.5 text-sm font-semibold text-accent-foreground shadow-lg transition-opacity hover:opacity-90 no-print"
+        className="fixed bottom-6 right-6 z-40 inline-flex items-center gap-2 rounded-full bg-accent px-4 py-2.5 text-sm font-semibold text-accent-foreground shadow-lg transition-opacity hover:opacity-90 no-print"
       >
         <span aria-hidden>✦</span> Ask me anything
       </button>
@@ -99,7 +99,7 @@ export function AiChat() {
           transition={{ duration: reduced ? 0 : 0.2, ease: [0.16, 1, 0.3, 1] }}
           role="dialog"
           aria-label="Ask about Rahul"
-          className="fixed bottom-20 left-6 z-40 flex max-h-[70vh] w-[min(24rem,calc(100vw-3rem))] flex-col overflow-hidden rounded-lg border border-border-bright bg-surface shadow-2xl no-print"
+          className="fixed bottom-20 right-6 z-40 flex max-h-[70vh] w-[min(24rem,calc(100vw-3rem))] flex-col overflow-hidden rounded-lg border border-border-bright bg-surface shadow-2xl no-print"
         >
           <div className="flex items-center justify-between border-b border-border px-4 py-3">
             <div>

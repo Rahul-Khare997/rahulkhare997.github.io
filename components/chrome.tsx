@@ -53,8 +53,10 @@ export function BackToTop() {
       type="button"
       onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
       aria-label="Back to top"
+      // Bottom-LEFT: bottom-right belongs to the chat button, and the old
+      // left slot overlapped the sidebar's mode controls on desktop.
       className={[
-        'fixed bottom-6 right-6 z-40 grid h-10 w-10 place-items-center rounded-full border border-border-bright bg-surface text-accent transition-all duration-200 hover:bg-accent hover:text-accent-foreground no-print',
+        'fixed bottom-6 left-6 z-40 grid h-10 w-10 place-items-center rounded-full border border-border-bright bg-surface text-accent transition-all duration-200 hover:bg-accent hover:text-accent-foreground no-print',
         show ? 'translate-y-0 opacity-100' : 'pointer-events-none translate-y-3 opacity-0',
       ].join(' ')}
     >

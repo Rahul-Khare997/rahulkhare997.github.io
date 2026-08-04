@@ -141,6 +141,30 @@
   mask-image: radial-gradient(ellipse 100% 60% at 50% 0%, #000 40%, transparent 100%);
 }
 
+/* Giant RK mark ghosted behind the reading column. Same register as the
+   ghost numerals: barely-there, never interactive. The mark is white/blue,
+   so light theme inverts it toward ink to stay visible on cream. */
+.rk-watermark {
+  position: fixed;
+  top: 50%;
+  right: -6vw;
+  transform: translateY(-50%);
+  z-index: 0;
+  pointer-events: none;
+  user-select: none;
+}
+
+.rk-watermark img {
+  height: min(80vh, 46vw);
+  width: auto;
+  opacity: 0.03;
+}
+
+.light .rk-watermark img {
+  filter: invert(0.82);
+  opacity: 0.05;
+}
+
 /* Oversized section numerals sitting behind each heading. */
 .ghost-num {
   position: absolute;
@@ -256,6 +280,7 @@
    ============================================================ */
 .recruiter .grid-bg,
 .recruiter .ghost-num,
+.recruiter .rk-watermark,
 .recruiter #spotlight,
 .recruiter .ticker-wrap {
   display: none !important;
